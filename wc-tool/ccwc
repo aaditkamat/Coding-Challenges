@@ -1,0 +1,51 @@
+#!/usr/bin/python3
+import argparse
+import string
+
+def no_of_words(file_name: str) -> int:
+    total_words = 0
+    with open(file_name) as file:
+        content = file.read()
+        is_word = False
+        for char in content:
+            if is_word and char not in string.ascii_letters:
+                total_words += 1
+                is_word = False
+            elif char in string.ascii_letters:
+                is_word = True
+    return total_words
+
+def no_of_lines(file_name: str) -> int:
+    total_lines = 0
+    with open(file_name) as file:
+        for _ in file:
+            total_lines += 1
+    return total_lines
+
+def no_of_bytes(file_name: str) -> int:
+    total_bytes = 0
+    with open(file_name, mode='b+r') as file:
+        total_bytes += len(file.read())
+    return total_bytes
+
+def no_of_characters(file_name: str) -> int:
+    total_chars = 0
+    with open(file_name) as file:
+        total_chars += len(file.read())
+    return total_chars
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Counts the number of lines, words, characters and bytes in a text file like the wc Unix utility')
+    parser.add_argument('-c', help='Count the number of bytes in the file')
+    parser.add_argument('-l', help='Count the number of lines in the file')
+    parser.add_argument('-w', help='Count the number of words in the file')
+    parser.add_argument('-m', help='Count the number of characters in the file')
+    args = parser.parse_args()
+    if args.c:
+        print(f'{no_of_bytes(args.c)} {args.c}')
+    if args.l:
+        print(f'{no_of_lines(args.l)} {args.l}')
+    if args.w:
+        print(f'{no_of_words(args.w)} {args.w}')
+    if args.m:
+        print(f'{no_of_characters(args.m)} {args.m}')
